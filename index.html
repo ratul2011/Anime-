@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#090910">
+<title>ANIMEVERSE — Anime Discovery</title>
+<style>
+:root{--bg:#090910;--panel:#151522;--text:#f7f5ff;--muted:#aaa7bd;--purple:#8b5cf6;--line:#ffffff19}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,Arial,sans-serif}button,input{font:inherit}button{cursor:pointer}
+header{height:68px;display:flex;align-items:center;gap:24px;padding:0 5vw;position:sticky;top:0;z-index:10;background:#090910ed;backdrop-filter:blur(15px);border-bottom:1px solid var(--line)}.logo{font-weight:950;font-size:22px;letter-spacing:1px;color:white;text-decoration:none}.logo span{color:var(--purple)}nav{display:flex;gap:18px}nav a{font-size:13px;color:#c9c6d8;text-decoration:none}.search{margin-left:auto;position:relative}.search:before{content:"⌕";position:absolute;left:12px;top:3px;font-size:23px;color:var(--muted)}.search input{width:min(270px,30vw);padding:10px 12px 10px 34px;background:#ffffff0b;color:white;border:1px solid var(--line);border-radius:30px;outline:0}.avatar{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(135deg,#8b5cf6,#38bdf8);font-weight:800}
+.hero{min-height:420px;padding:72px 7vw;display:flex;align-items:center;position:relative;overflow:hidden;background:radial-gradient(ellipse at 80% 35%,#7143bc66,transparent 38%),linear-gradient(90deg,#090910 0%,#090910e8 52%,#09091066 100%),linear-gradient(135deg,#211638,#111d36)}.hero:after{content:"";position:absolute;width:340px;height:340px;right:9%;top:10%;border-radius:50%;background:radial-gradient(circle at 35% 35%,#c4b5fd88,#2563eb44 42%,transparent 72%);filter:blur(8px)}.hero-copy{max-width:650px;position:relative;z-index:1}.eyebrow{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:#c4b5fd;font-weight:800}.hero h1{font-size:clamp(42px,6vw,72px);line-height:.98;letter-spacing:-2.5px;margin:16px 0}.hero h1 span{color:transparent;background:linear-gradient(90deg,#c4b5fd,#60a5fa);background-clip:text}.hero p{max-width:530px;color:#c3bfd2;line-height:1.7;font-size:14px}.btn{border:0;border-radius:8px;padding:12px 18px;font-weight:800}.primary{background:linear-gradient(100deg,#8b5cf6,#536dfe);color:white}.secondary{background:#ffffff15;border:1px solid #ffffff25;color:white}.hero-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:24px}
+main{padding:28px 5vw 60px}.status{display:flex;gap:9px;align-items:center;color:var(--muted);font-size:12px;margin-bottom:20px}.dot{width:7px;height:7px;background:#34d399;border-radius:50%}.section{margin:26px 0 38px}.head{display:flex;justify-content:space-between;align-items:end;margin-bottom:15px;gap:12px}.head h2{font-size:21px;margin:0}.head p{font-size:12px;color:var(--muted);margin:5px 0 0}.grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:17px}.card{min-width:0;cursor:pointer}.poster{aspect-ratio:3/4;border-radius:11px;overflow:hidden;position:relative;background:linear-gradient(135deg,#382353,#142a4c);box-shadow:0 10px 28px #0005;transition:.2s}.poster img{width:100%;height:100%;object-fit:cover;display:block}.poster:after{content:"";position:absolute;inset:35% 0 0;background:linear-gradient(transparent,#05050cf0);pointer-events:none}.poster:hover{transform:translateY(-5px)}.rank{position:absolute;top:9px;left:9px;z-index:2;background:#080812c9;border:1px solid #ffffff2b;border-radius:5px;padding:5px 7px;font-size:10px}.ptitle{position:absolute;z-index:2;bottom:11px;left:10px;right:10px;font-weight:800;font-size:15px;line-height:1.15;text-shadow:0 2px 10px #000}.line{display:flex;align-items:center;justify-content:space-between;gap:7px;margin-top:9px}.line strong{font-size:12px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.rating{font-size:11px;color:#fbbf24;white-space:nowrap}.meta{font-size:10px;color:var(--muted);margin-top:4px}.empty,.loading{grid-column:1/-1;padding:28px;border:1px dashed var(--line);border-radius:12px;text-align:center;color:var(--muted);font-size:13px}.error{color:#fca5a5}.feature{margin:28px 0;padding:24px;border:1px solid var(--line);border-radius:15px;background:linear-gradient(110deg,#21163a,#111a2d);display:flex;align-items:center;justify-content:space-between;gap:20px}.feature h3{margin:0 0 7px}.feature p{margin:0;color:#b7b2c9;font-size:12px;line-height:1.6}.calendar{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.release{padding:15px;border:1px solid var(--line);background:#ffffff07;border-radius:11px}.release b{display:block;font-size:13px}.release small{display:block;color:var(--muted);margin-top:5px;font-size:11px}footer{border-top:1px solid var(--line);padding:25px 5vw;color:#89859a;font-size:11px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.backdrop{display:none;position:fixed;inset:0;z-index:50;background:#000c;place-items:center;padding:18px}.backdrop.show{display:grid}.modal{width:min(620px,100%);max-height:90vh;overflow:auto;background:#171624;border:1px solid var(--line);border-radius:17px;padding:23px;position:relative}.close{position:absolute;right:13px;top:12px;width:32px;height:32px;border:0;border-radius:50%;background:#ffffff15;color:white;font-size:20px}.modal-layout{display:grid;grid-template-columns:140px 1fr;gap:18px}.modal-poster{width:100%;aspect-ratio:3/4;object-fit:cover;border-radius:9px;background:#29213c}.modal h2{margin:7px 35px 8px 0;font-size:22px}.modal p{color:#c4c0d0;font-size:13px;line-height:1.6}.modal-meta{font-size:11px;color:#aaa5bb;line-height:1.7}.actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:14px}.actions a{color:white;text-decoration:none}.toast{position:fixed;z-index:70;bottom:20px;left:50%;transform:translate(-50%,15px);opacity:0;background:#29243b;border:1px solid #ffffff25;padding:10px 16px;border-radius:30px;font-size:12px;transition:.2s}.toast.show{opacity:1;transform:translate(-50%,0)}
+
+.watch-page{display:none;padding:24px 5vw 55px;background:#0d0c16;border-top:1px solid var(--line)}
+.watch-page.show{display:block}.watch-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:18px}
+.watch-head h2{margin:0;font-size:24px}.player-wrap{display:grid;grid-template-columns:minmax(0,2fr) minmax(250px,1fr);gap:18px}
+.player{background:#030308;border:1px solid var(--line);border-radius:13px;overflow:hidden;aspect-ratio:16/9;display:grid;place-items:center;color:#aaa7bd;text-align:center;padding:20px}
+.player iframe{width:100%;height:100%;border:0}.player-placeholder strong{display:block;color:white;font-size:18px;margin:8px}
+.watch-info{background:var(--panel);border:1px solid var(--line);border-radius:13px;padding:18px}
+.watch-info h3{margin:0 0 10px}.watch-info p{color:var(--muted);font-size:13px;line-height:1.6}
+.episode-list{margin-top:20px}.episode-list h3{font-size:17px}.episode-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:9px}
+.episode{background:#ffffff09;border:1px solid var(--line);border-radius:9px;padding:12px;color:#ddd9eb;text-align:left;font-size:12px}
+.episode small{display:block;color:var(--muted);margin-top:5px}.official-links{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+@media(max-width:720px){.watch-page{padding:22px 4vw 42px}.player-wrap{grid-template-columns:1fr}.episode-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.watch-head h2{font-size:20px}}
+
+@media(max-width:1000px){.grid{grid-template-columns:repeat(3,minmax(0,1fr))}}@media(max-width:720px){header{height:60px;padding:0 4vw;gap:12px}.logo{font-size:18px}nav{display:none}.search input{width:39vw;font-size:11px;padding:9px 9px 9px 31px}.avatar{width:31px;height:31px}.hero{min-height:390px;padding:55px 6vw}.hero:after{width:220px;height:220px;right:-65px}.hero h1{font-size:47px}main{padding:22px 4vw 48px}.grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:15px}.head h2{font-size:19px}.feature{align-items:flex-start;flex-direction:column;padding:20px}.feature button{width:100%}.calendar{grid-template-columns:1fr}.modal-layout{grid-template-columns:100px 1fr;gap:13px}.modal{padding:18px}}
+
+.account-btn{padding:9px 14px;font-size:12px;white-space:nowrap}
+.auth-backdrop{display:none;position:fixed;inset:0;z-index:90;background:#000d;place-items:center;padding:18px}
+.auth-backdrop.show{display:grid}
+.auth-panel{width:min(430px,100%);background:#171624;border:1px solid #ffffff20;border-radius:18px;padding:25px;position:relative;box-shadow:0 25px 80px #0009}
+.auth-panel h2{margin:7px 0;font-size:25px}
+.auth-panel p{color:#aaa7bd;font-size:12px;line-height:1.6}
+.auth-tabs{display:flex;gap:7px;margin:18px 0}
+.auth-tabs button{flex:1;padding:10px;border:1px solid #ffffff20;border-radius:8px;background:#ffffff08;color:#bbb}
+.auth-tabs button.active{background:#7448c8;color:white;border-color:#9b78ef}
+.auth-field{display:block;margin:12px 0;color:#c9c6d8;font-size:12px}
+.auth-field input{display:block;width:100%;margin-top:7px;padding:12px;border:1px solid #ffffff22;border-radius:8px;background:#0d0c16;color:white;outline:none}
+.auth-field input:focus{border-color:#9b78ef}
+.auth-note{padding:10px 12px;border:1px solid #ffffff18;border-radius:9px;background:#ffffff08;color:#aaa7bd;font-size:11px;line-height:1.55;margin-top:14px}
+.auth-error{color:#fca5a5!important;min-height:18px}
+@media(max-width:720px){.account-btn{padding:8px 10px;font-size:10px}.auth-panel{padding:20px}}
+
+
+.admin-section{margin:24px 5vw 36px;padding:24px;border:1px solid #ffffff20;border-radius:16px;background:linear-gradient(145deg,#1a1530,#111827)}
+.admin-top{display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap}
+.admin-top h2{font-size:25px;margin:8px 0 5px}.admin-top p,.admin-card p{font-size:12px;line-height:1.6;color:#aaa7bd;margin:0 0 13px}
+.admin-notice{margin:18px 0;padding:12px 14px;border-radius:9px;background:#f59e0b12;border:1px solid #f59e0b40;color:#fcd99a;font-size:11px;line-height:1.6}
+.admin-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:17px 0}
+.stat-card{padding:16px;border:1px solid #ffffff18;border-radius:11px;background:#ffffff08}
+.stat-card span{display:block;color:#aaa7bd;font-size:11px}.stat-card strong{display:block;font-size:25px;margin-top:7px}
+.admin-columns{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.admin-card{padding:17px;border:1px solid #ffffff18;border-radius:12px;background:#09091066;min-width:0}
+.admin-card h3{margin:0 0 8px;font-size:15px}
+.admin-add-form{display:flex;align-items:end;gap:10px;flex-wrap:wrap}.admin-add-form .auth-field{flex:1;min-width:170px;margin:0}
+.admin-add-form .btn{white-space:nowrap}
+.admin-feedback{min-height:18px;margin-top:10px!important;color:#c4b5fd!important}
+.admin-picks-list{display:grid;gap:8px;margin:12px 0}
+.admin-pick-row{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:9px;border-radius:8px;background:#ffffff08;font-size:12px}
+.admin-pick-row span{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.admin-pick-row button{border:1px solid #ffffff20;border-radius:7px;background:#ffffff0c;color:#fca5a5;padding:6px 9px}
+#adminPicksSection{padding-top:5px}
+@media(max-width:720px){.admin-section{margin:18px 4vw;padding:17px}.admin-columns{grid-template-columns:1fr}.admin-stats{gap:8px}.stat-card{padding:12px}.stat-card strong{font-size:20px}.admin-add-form{align-items:stretch;flex-direction:column}.admin-add-form .btn{width:100%}}
+
+</style></head>
+<body>
+<header><a class="logo" href="#">ANIME<span>VERSE</span></a><nav><a href="#discover">Discover</a><a href="#seasonal">Seasonal</a><a href="#calendar">Release Calendar</a><a href="#watchlist">My List</a></nav><div class="search"><input id="search" type="search" placeholder="Search anime..." aria-label="Search anime"></div><button class="btn secondary account-btn" id="adminOpenBtn" type="button" hidden>Admin</button><button class="btn secondary account-btn" id="accountBtn" onclick="openAuth()">Sign in</button><div class="avatar" id="avatar" title="Guest">G</div></header>
+<section class="hero"><div class="hero-copy"><div class="eyebrow">Your gateway to anime worlds</div><h1>FIND YOUR<br><span>NEXT WORLD.</span></h1><p>Explore a live anime catalogue, discover seasonal releases, check ratings, and build your personal watchlist — all in one place.</p><div class="hero-actions"><button class="btn primary" onclick="go('discover')">Explore Anime →</button><button class="btn secondary" onclick="go('watchlist')">♡ My Watchlist</button></div></div></section>
+
+<section class="watch-page" id="watchPage">
+ <div class="watch-head"><div><div class="eyebrow">ANIMEVERSE PLAYER</div><h2 id="watchTitle">Anime Watch Page</h2></div><button class="btn secondary" onclick="closeWatchPage()">← Back to Browse</button></div>
+ <div class="player-wrap">
+  <div>
+   <div class="player" id="trailerPlayer"><div class="player-placeholder"><div style="font-size:34px">▶</div><strong>Official trailer preview</strong><span>Choose an anime to view its available trailer.</span></div></div>
+   <div class="episode-list"><h3>Episode Guide</h3><div class="episode-grid" id="episodeGrid"><div class="empty">Select an anime to load its episode guide.</div></div></div>
+  </div>
+  <aside class="watch-info"><h3 id="watchInfoTitle">About this anime</h3><div class="modal-meta" id="watchMeta"></div><p id="watchSynopsis">Anime synopsis and viewing information will appear here.</p><div class="official-links" id="officialLinks"></div><p style="font-size:11px">Episode guide and trailer information are for discovery. ANIMEVERSE does not host episodes. Use official licensed services to watch.</p></aside>
+ </div>
+</section>
+
+<main><div class="status"><span class="dot"></span><span id="apiStatus">Connecting to anime database…</span><span>· Jikan API / MyAnimeList data</span></div>
+
+<section class="admin-section" id="adminDashboard" hidden>
+  <div class="admin-top">
+    <div><div class="eyebrow">CONTROL CENTER · PHASE 6</div><h2>Admin Dashboard</h2><p>Manage locally featured anime and review this browser's demo statistics.</p></div>
+    <button class="btn secondary" id="adminCloseBtn" type="button">Close dashboard</button>
+  </div>
+  <div class="admin-notice"><b>Protected dashboard:</b> Admin access is checked against the database role table. Database Row Level Security controls every write operation.</div>
+  <div class="admin-stats">
+    <article class="stat-card"><span>Featured anime</span><strong id="statFeatured">0</strong></article>
+    <article class="stat-card"><span>Watchlist entries here</span><strong id="statWatchlist">0</strong></article>
+    <article class="stat-card"><span>Local profile</span><strong id="statProfile">Guest</strong></article>
+  </div>
+  <div class="admin-columns">
+    <div class="admin-card">
+      <h3>Add anime to Admin Picks</h3>
+      <p>Enter a MyAnimeList (MAL) anime ID. The title and poster are fetched from the Jikan anime database.</p>
+      <form id="adminAddForm" class="admin-add-form">
+        <label class="auth-field">MyAnimeList anime ID<input id="adminAnimeId" type="number" min="1" step="1" required placeholder="e.g. 5114"></label>
+        <button class="btn primary" id="adminAddBtn" type="submit">Fetch & add anime</button>
+      </form>
+      <p class="admin-feedback" id="adminFeedback" aria-live="polite"></p>
+    </div>
+    <div class="admin-card">
+      <h3>Admin Picks</h3>
+      <p>These titles appear in the Admin Picks section on the discovery page.</p>
+      <div id="adminPicksList" class="admin-picks-list"><div class="empty">No admin picks yet.</div></div>
+      <button class="btn secondary" id="adminResetBtn" type="button">Clear all Admin Picks</button>
+    </div>
+  </div>
+</section>
+<section class="section" id="adminPicksSection" hidden>
+  <div class="head"><div><h2>Admin Picks ✦</h2><p>Curated titles selected by the ANIMEVERSE admin</p></div></div>
+  <div class="grid" id="adminPicksGrid"></div>
+</section>
+
+<section class="section" id="discover"><div class="head"><div><h2>Top Anime</h2><p>Popular titles from the anime database</p></div><button class="btn secondary" onclick="refresh()">↻ Refresh</button></div><div class="grid" id="topGrid"><div class="loading">Loading anime catalogue…</div></div></section>
+<section class="section" id="seasonal"><div class="head"><div><h2>Currently Airing</h2><p>Anime airing in the current season</p></div></div><div class="grid" id="seasonGrid"><div class="loading">Loading seasonal anime…</div></div></section>
+<section class="section" id="searchResults" hidden><div class="head"><div><h2>Search Results</h2><p id="searchLabel"></p></div></div><div class="grid" id="searchGrid"></div></section>
+<section class="feature"><div><h3>Your anime journey, in one place.</h3><p>Save titles to your personal list. Your watchlist is stored in this browser.</p></div><button class="btn primary" onclick="go('watchlist')">Open My List →</button></section>
+<section class="section" id="calendar"><div class="head"><div><h2>Upcoming Releases</h2><p>Upcoming anime listed in the database</p></div></div><div class="calendar" id="upcomingGrid"><div class="loading">Loading upcoming titles…</div></div></section>
+<section class="section" id="watchlist"><div class="head"><div><h2>My Watchlist ♡</h2><p>Your saved anime titles</p></div><button class="btn secondary" onclick="clearWatchlist()">Clear list</button></div><div class="grid" id="watchGrid"></div></section></main>
+<footer><span>© 2026 ANIMEVERSE · Built for anime fans</span><span>Discovery catalogue · Support official licensed releases</span></footer>
+<div class="backdrop" id="backdrop" onclick="if(event.target===this)closeModal()"><div class="modal" role="dialog" aria-modal="true"><button class="close" onclick="closeModal()">×</button><div class="modal-layout"><img class="modal-poster" id="detailImage" alt=""><div><div class="eyebrow">Anime details</div><h2 id="detailTitle"></h2><div class="modal-meta" id="detailMeta"></div><p id="detailSynopsis"></p><div class="actions"><button class="btn primary" id="saveBtn">♡ Add to My List</button><button class="btn secondary" id="openWatchBtn">Open Watch Page</button><a class="btn secondary" id="malLink" target="_blank" rel="noopener">MyAnimeList ↗</a></div></div></div><p style="font-size:11px;color:#928da3;margin-top:18px">ANIMEVERSE is a discovery platform, not a streaming service. Watch through official licensed providers.</p></div></div>
+<div class="auth-backdrop" id="authBackdrop" onclick="if(event.target===this)closeAuth()">
+  <section class="auth-panel" role="dialog" aria-modal="true" aria-labelledby="authTitle">
+    <button class="close" onclick="closeAuth()" aria-label="Close">×</button>
+    <div class="eyebrow">ANIMEVERSE ACCOUNT</div>
+    <h2 id="authTitle">Welcome back.</h2>
+    <p id="authSubtitle">Sign in to access your ANIMEVERSE account.</p>
+    <div class="auth-tabs">
+      <button id="loginTab" class="active" onclick="setAuthMode('login')">Sign in</button>
+      <button id="signupTab" onclick="setAuthMode('signup')">Create account</button>
+    </div>
+    <form id="authForm">
+      <label class="auth-field" id="nameField" hidden>Display name
+        <input id="authName" type="text" maxlength="30" autocomplete="nickname" placeholder="Your name">
+      </label>
+      <label class="auth-field">Email address
+        <input id="authEmail" type="email" maxlength="120" autocomplete="email" required placeholder="you@example.com">
+      </label>
+      <label class="auth-field">Password
+        <input id="authPassword" type="password" minlength="8" maxlength="72" autocomplete="current-password" required placeholder="At least 8 characters">
+      </label>
+      <p class="auth-error" id="authError" aria-live="polite"></p>
+      <button class="btn primary" id="authSubmit" type="submit" style="width:100%">Sign in →</button>
+    </form>
+    <div class="auth-note"><b>Secure account:</b> authentication is handled by Supabase Auth. Passwords are not stored in this website code. Email confirmation can be enabled in your Supabase project settings.</div>
+  </section>
+</div>
+<div class="toast" id="toast"></div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const API="https://api.jikan.moe/v4",cache=new Map();let currentAnime=null,watchlist=JSON.parse(localStorage.getItem("av-watchlist")||"[]"),searchTimer=null;
+const $=id=>document.getElementById(id);function esc(v){return String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}function go(id){$(id).scrollIntoView({behavior:"smooth"});}function toast(s){$("toast").textContent=s;$("toast").classList.add("show");setTimeout(()=>$("toast").classList.remove("show"),1700)}
+function img(a){return a.images?.webp?.large_image_url||a.images?.jpg?.large_image_url||a.images?.webp?.image_url||""}function year(a){return a.year||a.aired?.prop?.from?.year||"Year N/A"}
+function card(a){let title=a.title_english||a.title||"Untitled",src=img(a),score=a.score?Number(a.score).toFixed(1):"N/A",saved=watchlist.some(x=>x.mal_id===a.mal_id);return `<article class="card" data-id="${Number(a.mal_id)}" tabindex="0" role="button"><div class="poster">${src?`<img loading="lazy" src="${esc(src)}" alt="${esc(title)} poster" onerror="this.style.display='none'">`:""}<span class="rank">${a.rank?"#"+a.rank:esc(a.type||"ANIME")}</span><div class="ptitle">${esc(title)}</div></div><div class="line"><strong>${esc(title)}</strong><span class="rating">★ ${score}</span></div><div class="meta">${esc((a.type||"Anime")+" · "+year(a))}${saved?" · ♥ Saved":""}</div></article>`}
+function render(id,data,empty){$(id).innerHTML=data?.length?data.map(card).join(""):`<div class="empty">${esc(empty||"No anime found.")}</div>`}
+async function api(path){let url=API+path;if(cache.has(url))return cache.get(url);let res=await fetch(url,{headers:{Accept:"application/json"}});if(!res.ok)throw Error("API "+res.status);let json=await res.json();cache.set(url,json);return json}
+async function loadTop(){ $("topGrid").innerHTML='<div class="loading">Loading top anime…</div>';try{let r=await api("/top/anime?limit=10");window.topData=r.data||[];render("topGrid",window.topData);$("apiStatus").textContent="Live anime database connected"}catch(e){$("topGrid").innerHTML='<div class="empty error">Could not connect. Check internet and refresh.</div>';$("apiStatus").textContent="Anime database temporarily unavailable"}}
+async function loadSeason(){try{let r=await api("/seasons/now?limit=10");window.seasonData=r.data||[];render("seasonGrid",window.seasonData,"No seasonal titles available.")}catch(e){$("seasonGrid").innerHTML='<div class="empty">Seasonal data unavailable right now.</div>'}}
+async function loadUpcoming(){try{let r=await api("/seasons/upcoming?limit=6");let d=r.data||[];$("upcomingGrid").innerHTML=d.length?d.slice(0,6).map(a=>`<article class="release"><b>${esc(a.title_english||a.title)}</b><small>${esc(a.season||"Upcoming")} · ${esc(a.year||"Release date TBA")} · ${esc(a.type||"Anime")}</small></article>`).join(""):'<div class="empty">No upcoming titles listed.</div>'}catch(e){$("upcomingGrid").innerHTML='<div class="empty">Upcoming release data unavailable right now.</div>'}}
+async function searchAnime(q){if(!q.trim()){$("searchResults").hidden=true;return}$("searchResults").hidden=false;$("searchLabel").textContent="Searching…";$("searchGrid").innerHTML='<div class="loading">Searching database…</div>';try{let r=await api("/anime?q="+encodeURIComponent(q)+"&limit=12&sfw=true");window.searchData=r.data||[];$("searchLabel").textContent=`${r.data.length} result(s) for “${q}”`;render("searchGrid",window.searchData,"No matching anime. Try another title.")}catch(e){$("searchGrid").innerHTML='<div class="empty error">Search failed. Try again shortly.</div>'}}
+async function details(id){let all=[...(window.topData||[]),...(window.seasonData||[]),...(window.searchData||[]),...watchlist],a=all.find(x=>x.mal_id===id);if(!a){try{a=(await api("/anime/"+id+"/full")).data}catch(e){toast("Could not load details");return}}currentAnime=a;$("detailTitle").textContent=a.title_english||a.title;$("detailImage").src=img(a);$("detailImage").alt=a.title+" poster";$("detailMeta").textContent=[a.type,year(a),a.episodes?`${a.episodes} episodes`:"Episode count TBA",a.score?"★ "+a.score:"Rating unavailable",(a.genres||[]).map(g=>g.name).join(", ")].filter(Boolean).join(" · ");$("detailSynopsis").textContent=a.synopsis||"Synopsis unavailable.";$("malLink").href=a.url||"https://myanimelist.net";updateSave();$("backdrop").classList.add("show")}
+function updateSave(){let saved=watchlist.some(x=>x.mal_id===currentAnime.mal_id);$("saveBtn").textContent=saved?"✓ Remove from My List":"♡ Add to My List"}
+function renderWatch(){let ids=watchlist.map(x=>x.mal_id),known=ids.map(id=>[...(window.topData||[]),...(window.seasonData||[]),...(window.searchData||[])].find(a=>a.mal_id===id)||watchlist.find(a=>a.mal_id===id)).filter(Boolean);$("watchGrid").innerHTML=known.length?known.map(card).join(""):'<div class="empty">Your list is empty. Search anime and save titles here.</div>'}
+$("saveBtn").addEventListener("click",()=>{if(!currentAnime)return;let i=watchlist.findIndex(x=>x.mal_id===currentAnime.mal_id);if(i>=0)watchlist.splice(i,1);else watchlist.push(currentAnime);localStorage.setItem("av-watchlist",JSON.stringify(watchlist));updateSave();renderWatch();toast(i>=0?"Removed from My List":"Added to My List")});
+document.addEventListener("click",e=>{let c=e.target.closest(".card[data-id]");if(c)details(Number(c.dataset.id))});document.addEventListener("keydown",e=>{if(e.key==="Escape")closeModal();if((e.key==="Enter"||e.key===" ")&&document.activeElement.matches(".card[data-id]")){e.preventDefault();details(Number(document.activeElement.dataset.id))}});
+$("search").addEventListener("input",e=>{clearTimeout(searchTimer);let q=e.target.value;searchTimer=setTimeout(()=>searchAnime(q),450)});
+
+async function openWatchPage(){
+ if(!currentAnime)return;
+ const a=currentAnime;
+ closeModal();
+ $("watchPage").classList.add("show");
+ $("watchTitle").textContent=a.title_english||a.title;
+ $("watchInfoTitle").textContent=a.title_english||a.title;
+ $("watchMeta").textContent=[a.type,year(a),a.episodes?`${a.episodes} episodes`:"Episode count TBA",a.score?"★ "+a.score:"Rating unavailable"].filter(Boolean).join(" · ");
+ $("watchSynopsis").textContent=a.synopsis||"Synopsis unavailable.";
+ $("trailerPlayer").innerHTML='<div class="player-placeholder"><div style="font-size:34px">▶</div><strong>Loading official trailer…</strong><span>Please wait.</span></div>';
+ $("episodeGrid").innerHTML='<div class="loading">Loading episode guide…</div>';
+ const links=[];
+ if(a.url)links.push(`<a class="btn secondary" href="${esc(a.url)}" target="_blank" rel="noopener">Anime details ↗</a>`);
+ if(a.url)links.push(`<a class="btn secondary" href="${esc(a.url)}#videos" target="_blank" rel="noopener">Videos ↗</a>`);
+ $("officialLinks").innerHTML=links.join("");
+ go("watchPage");
+ try{
+   let full=(await api("/anime/"+a.mal_id+"/full")).data;
+   const trailer=full.trailer?.embed_url;
+   if(trailer){
+     const safe=trailer.replace("http://","https://");
+     $("trailerPlayer").innerHTML=`<iframe src="${esc(safe)}" title="Official anime trailer" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy"></iframe>`;
+   }else{
+     $("trailerPlayer").innerHTML='<div class="player-placeholder"><div style="font-size:34px">▶</div><strong>No embedded trailer available</strong><span>Check the official video listing using the links.</span></div>';
+   }
+   const ep=(await api("/anime/"+a.mal_id+"/episodes?page=1")).data||[];
+   $("episodeGrid").innerHTML=ep.length?ep.slice(0,20).map((x,i)=>`<div class="episode"><b>Episode ${x.mal_id?esc(x.mal_id):i+1}</b><small>${esc(x.title||"Episode title unavailable")}</small>${x.aired?`<small>${esc(new Date(x.aired).toLocaleDateString())}</small>`:""}</div>`).join(""):'<div class="empty">No episode guide is currently available for this title.</div>';
+ }catch(e){
+   $("trailerPlayer").innerHTML='<div class="player-placeholder"><strong>Trailer information unavailable</strong><span>Try the anime details link for official videos.</span></div>';
+   $("episodeGrid").innerHTML='<div class="empty">Could not load the episode guide right now.</div>';
+ }
+}
+function closeWatchPage(){$("watchPage").classList.remove("show");go("discover");}
+$("openWatchBtn").addEventListener("click",openWatchPage);
+
+function closeModal(){$("backdrop").classList.remove("show")}function clearWatchlist(){watchlist=[];localStorage.setItem("av-watchlist","[]");renderWatch();toast("Watchlist cleared")}function refresh(){cache.clear();loadTop();loadSeason();loadUpcoming()}
+async function init(){await Promise.all([loadTop(),loadSeason(),loadUpcoming()]);renderWatch()}init();
+
+
+// ANIMEVERSE production integration: Supabase Auth + Postgres + RLS.
+// Replace these two public project values before deployment.
+// The anon/publishable key is designed for browser use; NEVER put a service_role key here.
+const SUPABASE_URL = "https://YOUR-PROJECT.supabase.co";
+const SUPABASE_ANON_KEY = "YOUR_SUPABASE_ANON_OR_PUBLISHABLE_KEY";
+const SUPABASE_CONFIGURED = !SUPABASE_URL.includes("YOUR-PROJECT") &&
+  !SUPABASE_ANON_KEY.includes("YOUR_SUPABASE");
+let supabaseClient = null;
+let currentUser = null;
+let isAdmin = false;
+let adminPicks = [];
+let authMode = "login";
+
+if (SUPABASE_CONFIGURED && window.supabase?.createClient) {
+  supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+    auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true }
+  });
+}
+function setAuthMessage(message, isError=false) {
+  $("authError").textContent = message || "";
+  $("authError").style.color = isError ? "#fca5a5" : "#86efac";
+}
+function paintAccount() {
+  const email = currentUser?.email || "";
+  $("accountBtn").textContent = currentUser ? "Account" : "Sign in";
+  $("avatar").textContent = currentUser ? (email.charAt(0).toUpperCase() || "U") : "G";
+  $("avatar").title = email || "Guest";
+  $("adminOpenBtn").hidden = !isAdmin;
+}
+function openAuth() {
+  if (!supabaseClient) {
+    alert("Supabase is not configured yet. Add your project URL and anon key in the HTML file.");
+    return;
+  }
+  setAuthMode("login");
+  $("authBackdrop").classList.add("show");
+  $("authEmail").focus();
+}
+function closeAuth() { $("authBackdrop").classList.remove("show"); }
+function setAuthMode(mode) {
+  authMode = mode;
+  $("loginTab").classList.toggle("active", mode === "login");
+  $("signupTab").classList.toggle("active", mode === "signup");
+  $("nameField").hidden = mode !== "signup";
+  $("authPassword").autocomplete = mode === "signup" ? "new-password" : "current-password";
+  $("authTitle").textContent = mode === "signup" ? "Create your account." : "Welcome back.";
+  $("authSubtitle").textContent = mode === "signup" ? "Your account is securely managed by Supabase." : "Sign in to your ANIMEVERSE account.";
+  $("authSubmit").textContent = mode === "signup" ? "Create account →" : "Sign in →";
+  setAuthMessage("");
+}
+$("authForm").addEventListener("submit", async function(e) {
+  e.preventDefault();
+  if (!supabaseClient) return;
+  const email = $("authEmail").value.trim().toLowerCase();
+  const password = $("authPassword").value;
+  const name = $("authName").value.trim();
+  $("authSubmit").disabled = true;
+  $("authSubmit").textContent = "Please wait…";
+  setAuthMessage("");
+  try {
+    if (authMode === "signup") {
+      if (name.length < 2) throw new Error("Enter a display name (at least 2 characters).");
+      const { data, error } = await supabaseClient.auth.signUp({
+        email, password, options: { data: { display_name: name } }
+      });
+      if (error) throw error;
+      if (!data.session) setAuthMessage("Account created. Check your email to confirm, then sign in.");
+      else { closeAuth(); toast("Account created successfully"); }
+    } else {
+      const { error } = await supabaseClient.auth.signInWithPassword({ email, password });
+      if (error) throw error;
+      closeAuth(); toast("Signed in successfully");
+    }
+  } catch (err) {
+    setAuthMessage(err.message || "Authentication failed.", true);
+  } finally {
+    $("authSubmit").disabled = false;
+    $("authSubmit").textContent = authMode === "signup" ? "Create account →" : "Sign in →";
+  }
+});
+async function refreshAuthState() {
+  if (!supabaseClient) {
+    currentUser = null; isAdmin = false; paintAccount();
+    $("apiStatus").textContent = "Configure Supabase to enable accounts and admin";
+    return;
+  }
+  const { data: { session } } = await supabaseClient.auth.getSession();
+  currentUser = session?.user || null;
+  isAdmin = false;
+  if (currentUser) {
+    const { data, error } = await supabaseClient
+      .from("user_roles").select("role").eq("user_id", currentUser.id).maybeSingle();
+    isAdmin = !error && data?.role === "admin";
+  }
+  paintAccount();
+}
+supabaseClient?.auth.onAuthStateChange((_event, session) => {
+  currentUser = session?.user || null;
+  // Defer role lookup to avoid auth-lock contention inside this callback.
+  setTimeout(() => refreshAuthState(), 0);
+});
+$("accountBtn").addEventListener("click", async () => {
+  if (!supabaseClient || !currentUser) return openAuth();
+  if (confirm("Signed in as " + currentUser.email + ". Sign out?")) {
+    const { error } = await supabaseClient.auth.signOut();
+    if (error) toast("Sign out failed: " + error.message);
+    else toast("Signed out");
+  }
+});
+
+// Database policies provide real authorization; hiding the button is not security.
+function renderAdminStats() {
+  $("statFeatured").textContent = adminPicks.length;
+  $("statWatchlist").textContent = watchlist.length;
+  $("statProfile").textContent = currentUser?.email || "Guest";
+}
+function renderAdminPicks() {
+  const list = $("adminPicksList");
+  if (!adminPicks.length) {
+    list.innerHTML = '<div class="empty">No admin picks yet.</div>';
+    $("adminPicksSection").hidden = true;
+    return;
+  }
+  list.innerHTML = adminPicks.map(a =>
+    `<div class="admin-pick-row"><span>${esc(a.title_english || a.title || "Anime")} · MAL #${Number(a.mal_id)}</span><button type="button" data-remove-pick="${Number(a.mal_id)}">Remove</button></div>`
+  ).join("");
+  $("adminPicksSection").hidden = false;
+  render("adminPicksGrid", adminPicks, "No admin picks yet.");
+}
+async function loadAdminPicks() {
+  if (!supabaseClient) return;
+  const { data, error } = await supabaseClient
+    .from("anime_picks").select("mal_id,title,title_english,image_url,score,year,type,anime_json")
+    .order("created_at", { ascending: false });
+  if (error) { $("adminFeedback").textContent = error.message; return; }
+  adminPicks = (data || []).map(row => row.anime_json || {
+    mal_id: row.mal_id, title: row.title, title_english: row.title_english,
+    images: { webp: { large_image_url: row.image_url } },
+    score: row.score, year: row.year, type: row.type
+  });
+  renderAdminPicks(); renderAdminStats();
+}
+async function openAdmin() {
+  if (!currentUser || !isAdmin) { toast("Admin permission required"); return; }
+  $("adminDashboard").hidden = false;
+  renderAdminStats();
+  await loadAdminPicks();
+  $("adminDashboard").scrollIntoView({ behavior: "smooth", block: "start" });
+}
+function closeAdmin() {
+  $("adminDashboard").hidden = true;
+  $("discover").scrollIntoView({ behavior: "smooth", block: "start" });
+}
+$("adminOpenBtn").addEventListener("click", openAdmin);
+$("adminCloseBtn").addEventListener("click", closeAdmin);
+
+$("adminAddForm").addEventListener("submit", async e => {
+  e.preventDefault();
+  if (!supabaseClient || !currentUser || !isAdmin) return;
+  const id = Number($("adminAnimeId").value);
+  if (!Number.isInteger(id) || id < 1) { $("adminFeedback").textContent = "Enter a valid MAL ID."; return; }
+  $("adminAddBtn").disabled = true;
+  $("adminAddBtn").textContent = "Fetching…";
+  $("adminFeedback").textContent = "Loading anime details…";
+  try {
+    const a = (await api("/anime/" + id + "/full")).data;
+    const y = year(a);
+    const payload = {
+      mal_id: a.mal_id, title: a.title || "Untitled",
+      title_english: a.title_english || null, image_url: img(a) || null,
+      score: a.score || null, year: y === "Year N/A" ? null : Number(y),
+      type: a.type || null, anime_json: a
+    };
+    const { error } = await supabaseClient.from("anime_picks").upsert(payload, { onConflict: "mal_id" });
+    if (error) throw error;
+    $("adminAnimeId").value = "";
+    $("adminFeedback").textContent = "Saved to shared database: " + (a.title_english || a.title);
+    await loadAdminPicks(); toast("Anime saved to database");
+  } catch (err) {
+    $("adminFeedback").textContent = err.message || "Could not add anime.";
+  } finally {
+    $("adminAddBtn").disabled = false;
+    $("adminAddBtn").textContent = "Fetch & add anime";
+  }
+});
+$("adminPicksList").addEventListener("click", async e => {
+  const btn = e.target.closest("[data-remove-pick]");
+  if (!btn || !supabaseClient || !isAdmin) return;
+  const { error } = await supabaseClient.from("anime_picks").delete().eq("mal_id", Number(btn.dataset.removePick));
+  if (error) { $("adminFeedback").textContent = error.message; return; }
+  $("adminFeedback").textContent = "Removed from shared database.";
+  await loadAdminPicks();
+});
+$("adminResetBtn").addEventListener("click", async () => {
+  if (!supabaseClient || !isAdmin || !adminPicks.length) return;
+  if (!confirm("Remove every Admin Pick from the shared database?")) return;
+  const { error } = await supabaseClient.from("anime_picks").delete().not("mal_id", "is", null);
+  if (error) { $("adminFeedback").textContent = error.message; return; }
+  $("adminFeedback").textContent = "All Admin Picks cleared.";
+  await loadAdminPicks();
+});
+async function loadPublicPicks() {
+  if (!supabaseClient) return;
+  const { data, error } = await supabaseClient
+    .from("anime_picks").select("mal_id,title,title_english,image_url,score,year,type,anime_json")
+    .order("created_at", { ascending: false });
+  if (error) return;
+  const picks = (data || []).map(row => row.anime_json || {
+    mal_id: row.mal_id, title: row.title, title_english: row.title_english,
+    images: { webp: { large_image_url: row.image_url } },
+    score: row.score, year: row.year, type: row.type
+  });
+  if (picks.length) {
+    $("adminPicksSection").hidden = false;
+    render("adminPicksGrid", picks, "No admin picks yet.");
+  }
+}
+renderAdminPicks();
+refreshAuthState().then(loadPublicPicks);
+
+</script></body></html>
